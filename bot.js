@@ -5,20 +5,28 @@ var botID = process.env.BOT_ID;
 
 function respond() {
   var request = JSON.parse(this.req.chunks[0]),
-      botRegex = /.*:'\).*/;
+      criRegex = /.*:'\).*/,
+	  sandraRegex = /.*(sandra|watching|i see you|i c u).*/;
+	  
 
-  if(request.text && botRegex.test(request.text)) {
+  if(request.text && criRegex.test(request.text)) {
     this.res.writeHead(200);
-    postMessage();
+    postCriMessage();
     this.res.end();
-  } else {
+  } 
+  else if(request.text && sandraRegex.test(request.text)){
+	this.res.writeHead(200);
+    postSandraMessage();
+    this.res.end();
+  }
+  else {
     console.log("don't care");
     this.res.writeHead(200);
     this.res.end();
   }
 }
 
-function postMessage() {
+function postCriMessage() {
   var botResponse, options, body, botReq;
 
 
@@ -35,6 +43,26 @@ function postMessage() {
     {
       "type"  : "image",
       "url"   : "http://i.imgur.com/GL5mwRk.jpg"
+    }
+  ]
+}
+function postSandraMessage() {
+  var botResponse, options, body, botReq;
+
+
+  options = {
+    hostname: 'api.groupme.com',
+    path: '/v3/bots/post',
+    method: 'POST'
+  };
+
+  body = {
+  "bot_id"  : botID,
+  "text"    : "",
+  "attachments" : [
+    {
+      "type"  : "image",
+      "url"   : "http://i.imgur.com/1YKYgdQ.jpg"
     }
   ]
 }
