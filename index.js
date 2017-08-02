@@ -18,10 +18,11 @@ server = http.createServer(function (req, res) {
     req.chunks.push(chunk.toString());
   });
 
-  router.dispatch(req, res, function(err) {
+  /*router.dispatch(req, res, function(err) {
     res.writeHead(err.status, {"Content-Type": "text/plain"});
     res.end(err.message);
   });
+  */
 });
 
 port = Number(process.env.PORT || 5000);

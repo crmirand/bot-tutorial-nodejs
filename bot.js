@@ -169,7 +169,7 @@ console.log('sending ' + botResponse + ' to ' + botID);
   });
   botReq.end(JSON.stringify(body));
   */
-  uploadImageEvented(uploader, "cri.jpg");
+  uploadImageEvented(uploader, "./cri.jpg");
 
 }
 
@@ -213,7 +213,7 @@ function postSandraMessage() {
   });
   botReq.end(JSON.stringify(body));
   */
-  uploadImageEvented(uploader, "sandra.jpg");
+  uploadImageEvented(uploader, "./sandra.jpg");
 
 }
 function postAdamMessage() {
@@ -256,7 +256,7 @@ function postAdamMessage() {
   });
   botReq.end(JSON.stringify(body));
   */
-  uploadImageEvented(uploader, "adam.gif");
+  uploadImageEvented(uploader, "./adam.gif");
 
 }
 
