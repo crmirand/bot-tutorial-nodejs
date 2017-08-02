@@ -1,13 +1,95 @@
 var HTTPS = require('https');
 
+const ACCESS_TOKEN = "Ujv9DcYFgJL7blFmzsQe8x50Uadp4IfT91l36lRy";
+var API = require('groupme').Stateless;
+var fs           = require('fs');
+var path         = require('path');
+var EventEmitter = require('events').EventEmitter
+var assert       = require('assert');
+
+var ImageService = require('../../index').ImageService;
+var API          = require('../../index').Stateless;
 
 var botID = process.env.BOT_ID;
+var picture_url;
+
+/************************************************************************
+ * Here we show an example of uploading an image
+ * and providing an EventEmitter interface to the process.
+ ***********************************************************************/
+
+var uploadImageEvented = function(eventEmitter, path) {
+
+  ImageService.post(
+      path, 
+      function(err,ret) {
+        if (err) {
+          eventEmitter.emit('error', err);
+        } else {
+          eventEmitter.emit('success', ret);
+        }
+      });
+
+  eventEmitter.emit('start');
+
+  return eventEmitter;
+
+}
+
+/************************************************************************
+ * Helper function for posting a picture message
+ ***********************************************************************/
+
+var postImageAsBot = function(eventEmitter, access_token, botID, picture_url) {
+
+  API.Bots.post(
+    access_token,
+    botID,
+    "Picture Message Test",
+    {picture_url:picture_url},
+    function(err,ret) {
+      if (err) {
+        eventEmitter.emit('error', err);
+      } else {
+        eventEmitter.emit('success', ret);
+      }
+    });
+
+  eventEmitter.emit('start');
+
+  return eventEmitter;
+
+}
+/************************************************************************
+ * The logic of this example built around EventEmitters
+ ***********************************************************************/
+
+var errorFunc = function(err) {
+  console.log(err);
+  process.exit(1);
+}
+
+var uploader = new EventEmitter();
+var poster   = new EventEmitter();
+
+
+uploader.on('error', errorFunc);
+poster.on('error', errorFunc);
+
+function postPicture(path){
+  uploader.on('success', function(data) {
+    console.log("Successfully uploaded image:", data);
+    assert(data.picture_url);
+    picture_url = data.picture_url;
+    postImageAsBot(poster, ACCESS_TOKEN, botID, picture_url);
+  });
+}
 
 function respond() {
   var request = JSON.parse(this.req.chunks[0]),
       criRegex = /.*:'\).*/,
 	  sandraRegex = /.*(sandra|watching|i see you|i c u).*/,
-	  adamRegex = /.*(adam|Adam|nah|shame|SHAME|shake).*/;
+	  adamRegex = /.*(adam|Adam| nah|shame|SHAME|shake).*/;
 	  
 
   if(request.text && criRegex.test(request.text)) {
@@ -33,7 +115,7 @@ function respond() {
 }
 
 function postCriMessage() {
-  var botResponse, options, body, botReq;
+  /*var botResponse, options, body, botReq;
 
 
   options = {
@@ -69,9 +151,13 @@ console.log('sending ' + botResponse + ' to ' + botID);
     console.log('timeout posting message '  + JSON.stringify(err));
   });
   botReq.end(JSON.stringify(body));
+  */
+  uploadImageEvented(uploader, "cri.jpg");
+
 }
 
 function postSandraMessage() {
+  /*
   var botResponse, options, body, botReq;
 
 
@@ -109,8 +195,12 @@ function postSandraMessage() {
     console.log('timeout posting message '  + JSON.stringify(err));
   });
   botReq.end(JSON.stringify(body));
+  */
+  uploadImageEvented(uploader, "sandra.jpg");
+
 }
 function postAdamMessage() {
+  /*
   var botResponse, options, body, botReq;
 
 
@@ -148,6 +238,9 @@ function postAdamMessage() {
     console.log('timeout posting message '  + JSON.stringify(err));
   });
   botReq.end(JSON.stringify(body));
+  */
+  uploadImageEvented(uploader, "adam.gif");
+
 }
 
 
