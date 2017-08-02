@@ -1,7 +1,6 @@
 var HTTPS = require('https');
 
 const ACCESS_TOKEN = "Ujv9DcYFgJL7blFmzsQe8x50Uadp4IfT91l36lRy";
-var API = require('groupme').Stateless;
 var fs           = require('fs');
 var path         = require('path');
 var EventEmitter = require('events').EventEmitter
@@ -76,14 +75,32 @@ var poster   = new EventEmitter();
 uploader.on('error', errorFunc);
 poster.on('error', errorFunc);
 
-function postPicture(path){
-  uploader.on('success', function(data) {
-    console.log("Successfully uploaded image:", data);
-    assert(data.picture_url);
-    picture_url = data.picture_url;
-    postImageAsBot(poster, ACCESS_TOKEN, botID, picture_url);
-  });
-}
+uploader.on('success', function(data) {
+  console.log("Successfully uploaded image:", data);
+  assert(data.picture_url);
+  picture_url = data.picture_url;
+  postImageAsBot(poster, ACCESS_TOKEN, botID, picture_url);
+});
+
+poster.on('success', function(ret) {
+  console.log("Successfully posted picture message using bot!", ret);
+
+//*
+  API.Bots.destroy(
+    ACCESS_TOKEN,
+    bot_id,
+    function(err,ret) {
+      if (err) {
+        console.log("Could not destroy ", bot_id);
+      } else {
+        console.log("Bot destroyed.")
+      }
+    });
+// */
+
+});
+
+
 
 function respond() {
   var request = JSON.parse(this.req.chunks[0]),
