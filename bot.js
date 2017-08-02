@@ -41,10 +41,11 @@ var uploadImageEvented = function(eventEmitter, path) {
 
 var postImageAsBot = function(eventEmitter, access_token, botID, picture_url) {
 
+
   API.Bots.post(
     access_token,
     botID,
-    "Picture Message Test",
+    "",
     {picture_url:picture_url},
     function(err,ret) {
       if (err) {
@@ -106,7 +107,8 @@ function respond() {
   var request = JSON.parse(this.req.chunks[0]),
       criRegex = /.*:'\).*/,
 	  sandraRegex = /.*(sandra|watching|i see you|i c u).*/,
-	  adamRegex = /.*(adam|Adam| nah|shame|SHAME|shake).*/;
+    adamRegex = /.*(adam|Adam| nah|shame|SHAME|shake).*/,
+    hannahRegex = /.*(Hannah|hannah|emily|Emily|flaccid|welp).*/;
 	  
 
   if(request.text && criRegex.test(request.text)) {
@@ -122,6 +124,11 @@ function respond() {
   else if(request.text && adamRegex.test(request.text)){
 	this.res.writeHead(200);
     postAdamMessage();
+    this.res.end();
+  }
+  else if(request.text && hannahRegex.test(request.text)){
+	this.res.writeHead(200);
+    postHannahMessage();
     this.res.end();
   }
   else {
@@ -257,6 +264,11 @@ function postAdamMessage() {
   botReq.end(JSON.stringify(body));
   */
   uploadImageEvented(uploader, "./adam.gif");
+
+}
+
+function postHannahMessage(){
+    uploadImageEvented(uploader, "./hannah.gif");
 
 }
 
