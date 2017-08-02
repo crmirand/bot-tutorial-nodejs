@@ -86,19 +86,6 @@ uploader.on('success', function(data) {
 poster.on('success', function(ret) {
   console.log("Successfully posted picture message using bot!", ret);
 
-//*
-  API.Bots.destroy(
-    ACCESS_TOKEN,
-    bot_id,
-    function(err,ret) {
-      if (err) {
-        console.log("Could not destroy ", bot_id);
-      } else {
-        console.log("Bot destroyed.")
-      }
-    });
-// */
-
 });
 
 
