@@ -6,8 +6,8 @@ var path         = require('path');
 var EventEmitter = require('events').EventEmitter
 var assert       = require('assert');
 
-var ImageService = require('../../index').ImageService;
-var API          = require('../../index').Stateless;
+var ImageService = require('groupme').ImageService;
+var API          = require('groupme').Stateless;
 
 var botID = process.env.BOT_ID;
 var picture_url;
