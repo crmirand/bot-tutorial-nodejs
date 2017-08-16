@@ -93,9 +93,11 @@ poster.on('success', function(ret) {
 function respond() {
   var request = JSON.parse(this.req.chunks[0]),
       criRegex = /.*:'\).*/,
-	  sandraRegex = /.*(sandra|watching|i see you|i c u).*/,
+	  sandraRegex = /.*(sandra|Sandra|watching|i see you|i c u).*/,
     adamRegex = /.*(adam|Adam| nah|shame|SHAME|shake).*/,
     hannahRegex = /.*(Hannah|hannah|emily|Emily|flaccid|welp).*/;
+    vinnieRegex = /.*(Vinnie|vinnie|u won't|pussy|do it|lame).*/;
+    sophiaRegex = /.*(Sophia|sophia|sleep|turn up|turnip|party|drink|altitude|club).*/;
 	  
 
   if(request.text && criRegex.test(request.text)) {
@@ -118,6 +120,16 @@ function respond() {
     postHannahMessage();
     this.res.end();
   }
+  else if(request.text && vinnieRegex.test(request.text)){
+	this.res.writeHead(200);
+    postVinnieMessage();
+    this.res.end();
+  }
+  else if(request.text && sophiaRegex.test(request.text)){
+	this.res.writeHead(200);
+    postSophiaMessage();
+    this.res.end();
+  }
   else {
     console.log("don't care");
     this.res.writeHead(200);
@@ -126,137 +138,29 @@ function respond() {
 }
 
 function postCriMessage() {
-  /*var botResponse, options, body, botReq;
-
-
-  options = {
-    hostname: 'api.groupme.com',
-    path: '/v3/bots/post',
-    method: 'POST'
-  };
-
-  body = {
-  "bot_id"  : botID,
-  "text"    : "",
-  "attachments" : [
-    {
-      "type"  : "image",
-      "url"   : "http://i.imgur.com/GL5mwRk.jpg"
-    }
-  ]
-}
-console.log('sending ' + botResponse + ' to ' + botID);
-
-  botReq = HTTPS.request(options, function(res) {
-      if(res.statusCode == 202) {
-        //neat
-      } else {
-        console.log('rejecting bad status code ' + res.statusCode);
-      }
-  });
-
-  botReq.on('error', function(err) {
-    console.log('error posting message '  + JSON.stringify(err));
-  });
-  botReq.on('timeout', function(err) {
-    console.log('timeout posting message '  + JSON.stringify(err));
-  });
-  botReq.end(JSON.stringify(body));
-  */
   uploadImageEvented(uploader, "./cri.jpg");
 
 }
 
 function postSandraMessage() {
-  /*
-  var botResponse, options, body, botReq;
-
-
-  options = {
-    hostname: 'api.groupme.com',
-    path: '/v3/bots/post',
-    method: 'POST'
-  };
-
-  body = {
-  "bot_id"  : botID,
-  "text"    : "",
-  "attachments" : [
-    {
-      "type"  : "image",
-      "url"   : "http://i.imgur.com/1YKYgdQ.jpg"
-    }
-  ]
-}
-
-  console.log('sending ' + botResponse + ' to ' + botID);
-
-  botReq = HTTPS.request(options, function(res) {
-      if(res.statusCode == 202) {
-        //neat
-      } else {
-        console.log('rejecting bad status code ' + res.statusCode);
-      }
-  });
-
-  botReq.on('error', function(err) {
-    console.log('error posting message '  + JSON.stringify(err));
-  });
-  botReq.on('timeout', function(err) {
-    console.log('timeout posting message '  + JSON.stringify(err));
-  });
-  botReq.end(JSON.stringify(body));
-  */
   uploadImageEvented(uploader, "./sandra.jpg");
 
 }
 function postAdamMessage() {
-  /*
-  var botResponse, options, body, botReq;
-
-
-  options = {
-    hostname: 'api.groupme.com',
-    path: '/v3/bots/post',
-    method: 'POST'
-  };
-
-  body = {
-  "bot_id"  : botID,
-  "text"    : "",
-  "attachments" : [
-    {
-      "type"  : "image",
-      "url"   : "http://i.imgur.com/dMAE2CM.gif"
-    }
-  ]
-}
-
-  console.log('sending ' + botResponse + ' to ' + botID);
-
-  botReq = HTTPS.request(options, function(res) {
-      if(res.statusCode == 202) {
-        //neat
-      } else {
-        console.log('rejecting bad status code ' + res.statusCode);
-      }
-  });
-
-  botReq.on('error', function(err) {
-    console.log('error posting message '  + JSON.stringify(err));
-  });
-  botReq.on('timeout', function(err) {
-    console.log('timeout posting message '  + JSON.stringify(err));
-  });
-  botReq.end(JSON.stringify(body));
-  */
   uploadImageEvented(uploader, "./adam.gif");
 
 }
 
 function postHannahMessage(){
     uploadImageEvented(uploader, "./hannah.gif");
+}
 
+function postVinnieMessage(){
+    uploadImageEvented(uploader, "./vinnie.gif");
+}
+
+function postSophiaMessage(){
+    uploadImageEvented(uploader, "./sophia.gif");
 }
 
 
