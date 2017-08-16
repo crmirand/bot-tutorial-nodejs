@@ -156,11 +156,11 @@ function postHannahMessage(){
 }
 
 function postVinnieMessage(){
-    uploadImageEvented(uploader, "./vinnie.gif");
+    uploadImageEvented(uploader, "./vinnie.jpeg");
 }
 
 function postSophiaMessage(){
-    uploadImageEvented(uploader, "./sophia.gif");
+    uploadImageEvented(uploader, "./sophia.jpeg");
 }
 
 
